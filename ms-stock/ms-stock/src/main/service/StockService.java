@@ -4,7 +4,7 @@ import com.ms_stock.model.Stock;
 import com.ms_stock.repository.StockRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import lombok.extern.slf4j.Slf4j; // Para los Logs (IE 2.3.2)
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
@@ -27,7 +27,6 @@ public class StockService {
     public void descontarStock(Long productoId, Integer cantidad) {
         Stock stock = obtenerPorProductoId(productoId);
         
-        // REGLA DE NEGOCIO (IE 2.2.1)
         if (stock.getCantidad() < cantidad) {
             log.error("Error: Stock insuficiente para el producto {}", productoId);
             throw new RuntimeException("No hay suficiente stock disponible");
