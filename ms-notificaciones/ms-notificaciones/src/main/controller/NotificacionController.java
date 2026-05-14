@@ -17,7 +17,7 @@ public class NotificacionController {
     private NotifiService notificacionService;
 
     @PostMapping
-    public ResponseEntity<Notificacion> crear(@RequestBody Notificacion notificacion) {
+    public ResponseEntity<Notificacion> crear(@Valid @RequestBody Notificacion notificacion) {
         Notificacion nuevaNotificacion = notificacionService.enviarNotificacion(notificacion);
         return new ResponseEntity<>(nuevaNotificacion, HttpStatus.CREATED);
     }
