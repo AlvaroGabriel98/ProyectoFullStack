@@ -1,35 +1,65 @@
 package com.auth_service.controller;
 
+import com.gaming.authservice.dto.*;
 import com.ms_auth.dto.AuthRequest;
 import com.ms_auth.service.AuthService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
+@RequiredArgsConstructor
+@Slf4j
 public class AuthController {
 
-    @Autowired
     private AuthService authService;
 
-    /**
-     * Endpoint para autenticar usuarios.
-     * Recibe un DTO con email y password.
-     */
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@Valid @RequestBody AuthRequest request) {
-        // El controller solo orquesta la llamada al service
-        String token = authService.login(request);
-        return ResponseEntity.ok(token);
+    
+   public ResponseEntity<UserResponseDTO> register(
+            @Valid @RequestBody RegisterRequestDTO request) {
+
+        log.info("POST /auth/register ejecutado");
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(authService.register(request));
     }
 
-    /**
-     * Endpoint de prueba para verificar que el microservicio responde.
-     */
-    @GetMapping("/check")
-    public ResponseEntity<String> check() {
-        return ResponseEntity.ok("Microservicio Auth activo");
+    @PostMapping("/login")
+    public ResponseEntity<MessageResponseDTO> login(
+            @Valid @RequestBody LoginRequestDTO request) {
+
+        log.info("POST /auth/login ejecutado");
+
+        return ResponseEntity.ok(authService.login(request));
+    }
+
+     @GetMapping("/users/{id}")
+    public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long id) {
+
+        log.info("GET /auth/users/{} ejecutado", id);
+
+        return ResponseEntity.ok(authService.getUserById(id));
+    }
+
+    @PutMapping("/users/{id}")
+    public ResponseEntity<UserResponseDTO> updateUser(
+            @PathVariable Long id,
+            @Valid @RequestBody RegisterRequestDTO request) {
+
+        log.info("PUT /auth/users/{} ejecutado", id);
+
+        return ResponseEntity.ok(authService.updateUser(id, request));
+    }
+
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<MessageResponseDTO> deleteUser(@PathVariable Long id) {
+
+        log.info("DELETE /auth/users/{} ejecutado", id);
+
+        return ResponseEntity.ok(authService.deleteUser(id));
     }
 }
