@@ -1,3 +1,7 @@
-public class Role {
+package com.auth_service.entity;
 
+public enum Role {
+    ADMIN,
+    CLIENTE,
+    OPERADOR
 }

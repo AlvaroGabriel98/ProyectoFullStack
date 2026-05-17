@@ -1,34 +1,63 @@
 package com.user_service.controller;
 
-import com.user_service.dto.UserRequest;
-import com.user_service.model.User;
-import com.user_service.service.UserService;
+import com.gaming.userservice.dto.*;
+import com.gaming.userservice.service.interfaces.UserService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping("/api/users")
+import java.util.List;
 
+@RestController
+@RequestMapping("/users")
+@RequiredArgsConstructor
+@Slf4j
 public class UserController {
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<User> crear(@Valid @RequestBody UserRequest request) {
-        User nuevoUsuario = new User();
-        
-        nuevoUsuario.setNombre(request.getNombre());
-        nuevoUsuario.setEmail(request.getEmail());
-        nuevoUsuario.setPassword(request.getPassword());
-        
-        return new ResponseEntity<>(userService.registrarUsuario(nuevoUsuario), HttpStatus.CREATED);
+    public ResponseEntity<UserResponseDTO> createUser(
+            @Valid @RequestBody UserRequestDTO request) {
+
+        log.info("POST /users ejecutado");
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(userService.createUser(request));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
+
+        log.info("GET /users ejecutado");
+
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> obtenerUno(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.buscarPorId(id));
+    public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long id) {
+
+        log.info("GET /users/{} ejecutado", id);
+
+        return ResponseEntity.ok(userService.getUserById(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserResponseDTO> updateUser(
+            @PathVariable Long id,
+            @Valid @RequestBody UserRequestDTO request) {
+
+        log.info("PUT /users/{} ejecutado", id);
+
+        return ResponseEntity.ok(userService.updateUser(id, request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<MessageResponseDTO> deleteUser(@PathVariable Long id) {
+
+        log.info("DELETE /users/{} ejecutado", id);
+
+        return ResponseEntity.ok(userService.deleteUser(id));
     }
 }
