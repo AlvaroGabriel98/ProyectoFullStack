@@ -12,10 +12,22 @@ import java.math.BigDecimal;
 
 public class Consola {
 
+    @Id
+    @Column(nullable = false)
     private Integer id;
+
+    @Column(nullable = false)
     private String nombre;
+
+    @Column(nullable = false)
     private String fabricante;
+
+    @Column(nullable = false)
     private String almacenamiento;
+
+    @Column(nullable = false)
     private Integer precio;
+
+    @Column(nullable = false)
     private Integer stock;
 }
