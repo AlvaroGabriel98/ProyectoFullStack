@@ -2,30 +2,42 @@ package com.ms_notificaciones.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "notificaciones")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Notificacion {
+@Builder
+public class Notificaciones {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String destinatario; 
+    private Long userId;
+
+    @Column(nullable = false)
+    private String titulo;
 
     @Column(nullable = false)
     private String mensaje;
 
-    private String tipo; 
+    @Enumerated(EnumType.STRING)
+    private TipoNotificacion tipo;
 
-    private LocalDateTime fechaEnvio;
+    private Boolean leida = false;
+
+    private Boolean active = true;
+
+    private LocalDateTime createdAt;
 
     @PrePersist
-    protected void onCreate() {
-        this.fechaEnvio = LocalDateTime.now();
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
     }
 }
