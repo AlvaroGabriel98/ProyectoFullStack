@@ -50,11 +50,5 @@ public class StockController {
         return ResponseEntity.ok(stockService.deleteStock(id));
     }
 
-    @PatchMapping("/reduce/{productId}/{quantity}")
-    public ResponseEntity<MessageResponseDTO> reduceStock(
-            @PathVariable Long productId,
-            @PathVariable Integer quantity) {
-
-        return ResponseEntity.ok(stockService.reduceStock(productId, quantity));
-    }
+    
 }
