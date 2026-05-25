@@ -37,3 +37,4 @@ public class StockService {
         log.info("Stock descontado. Nuevo saldo: {}", stock.getCantidad());
     }
 }
+
