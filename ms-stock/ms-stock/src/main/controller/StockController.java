@@ -36,13 +36,21 @@ public class StockController {
         return ResponseEntity.ok(stockService.getStockById(id));
     }
 
+    @PostMapping
+    public ResponseEntity<StockResponseDTO> saveStock(
+            @Valid @RequestBody StockRequestDTO request) {
+
+        return ResponseEntity.ok(stockService.saveStock(request));
+    }
+
+
     @PutMapping("/{id}")
     public ResponseEntity<StockResponseDTO> updateStock(
             @PathVariable Long id,
             @Valid @RequestBody StockRequestDTO request) {
 
         return ResponseEntity.ok(stockService.updateStock(id, request));
-    }
+    }   
 
     @DeleteMapping("/{id}")
     public ResponseEntity<MessageResponseDTO> deleteStock(@PathVariable Long id) {
