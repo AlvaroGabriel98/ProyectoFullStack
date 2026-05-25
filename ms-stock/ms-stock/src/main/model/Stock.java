@@ -18,9 +18,9 @@ public class Stock {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private Long productoId; // ID del producto al que pertenece este stock
+    @Column(name = "product_id", nullable = false, unique = true)
+    private Long productoId; 
 
-    @Column(nullable = false)
+    @Column(name = "cantidad", nullable = false)
     private Integer cantidad;
 }
